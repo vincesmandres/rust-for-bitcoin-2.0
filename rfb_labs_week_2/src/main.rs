@@ -39,12 +39,12 @@ fn main() {
     transaction.add_output(payment_output);
 
     let change_output = TxOutput {
-        value: 28_000,
-        recipient: "bc1qreceiver".to_string(),
-        output_type: OutputType::P2wpkh,
-    };
+    value: 28_000,
+    recipient: "bc1qsender".to_string(),
+    output_type: OutputType::P2wpkh,
+};
 
-    transaction.add_output(change_output);
+transaction.add_output(change_output);
 
     match transaction.validate() {
         Ok(()) => {
