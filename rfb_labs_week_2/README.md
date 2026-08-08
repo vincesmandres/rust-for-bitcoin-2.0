@@ -166,4 +166,30 @@ ownership with the original collection and practices Rust borrowing.
 
 ## Example output
 
-Paste the output of `cargo run` here once Part 8 is complete.
+## Example output
+
+Running:
+
+```bash
+cargo run
+```
+
+The Output was:
+
+```rust 
+Transaction
+Version: 2
+Locktime: 0
+Inputs:
+  - Regular Input: txid_1:0 (70000 sats), sequence: 4294967295
+  - Regular Input: txid_2:1 (50000 sats), sequence: 4294967295
+Outputs:
+  - 90000 sats to bc1qreceiver (P2wpkh)
+  - 28000 sats to bc1qsender (P2wpkh)
+Total input: 120000 sats
+Total output: 118000 sats
+Fee: 2000 sats
+```
+
+### Screen of output
+![Week 2 output](output_w2.jpeg)
