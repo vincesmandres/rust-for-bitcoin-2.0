@@ -82,12 +82,66 @@ impl Library {
         self.items.iter().max_by_key(|item| item.loan_days())
     }
 
-    pub fn checkout(&mut self, item_id: u32, member_id: u32, day: u32) -> Result<(), LibraryError> {
-        // TODO(Part 5): validate in the order given in ASSIGNMENT.md, then
-        // update the item's status and the member's list together.
-        let _ = (item_id, member_id, day);
-        todo!("check an item out")
+    pub fn checkout(
+    &mut self,
+    item_id: u32,
+    member_id: u32,
+    day: u32,
+) -> Result<(), LibraryError> {
+    // 1. Find item index
+    let item_index = self
+        .items
+        .iter()
+        .position(|item| item.id == item_id)
+        .ok_or(LibraryError::ItemNotFound { id: item_id })?;
+
+    // 2. Find member index
+    let member_index = self
+        .members
+        .iter()
+        .position(|member| member.id == member_id)
+        .ok_or(LibraryError::MemberNotFound { id: member_id })?;
+
+    // 3. Validate item status
+    match self.items[item_index].status {
+        LoanStatus::Lost => {
+            return Err(LibraryError::ItemIsLost { id: item_id });
+        }
+
+        LoanStatus::OnLoan {
+            member_id: current_member_id,
+            ..
+        } => {
+            return Err(LibraryError::ItemAlreadyOnLoan {
+                id: item_id,
+                member_id: current_member_id,
+            });
+        }
+
+        LoanStatus::Available => {}
     }
+
+    // 4. Validate borrowing limit
+    if self.members[member_index].borrowed_item_ids.len() >= MAX_ITEMS_PER_MEMBER {
+        return Err(LibraryError::BorrowLimitReached {
+            member_id,
+            limit: MAX_ITEMS_PER_MEMBER,
+        });
+    }
+
+    // 5. Update item
+    self.items[item_index].status = LoanStatus::OnLoan {
+        member_id,
+        day_borrowed: day,
+    };
+
+    // 6. Update member
+    self.members[member_index]
+        .borrowed_item_ids
+        .push(item_id);
+
+    Ok(())
+}
 
     /// Returns the late fee owed, in cents.
     pub fn return_item(&mut self, item_id: u32, day: u32) -> Result<u32, LibraryError> {
