@@ -9,7 +9,7 @@ pub enum MediaKind {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LoanStatus {
-    Available,
+    Available, //solution for available_items in library.rs 
     OnLoan { member_id: u32, day_borrowed: u32 },
     Lost,
 }
