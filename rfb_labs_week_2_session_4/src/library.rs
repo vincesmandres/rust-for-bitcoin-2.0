@@ -1,4 +1,4 @@
-use crate::catalogue::{Item, LoanStatus};
+use crate::catalogue::{Item, LoanStatus, LoanTerms};
 use crate::error::LibraryError;
 use crate::member::Member;
 
@@ -11,6 +11,7 @@ pub const MAX_ITEMS_PER_MEMBER: usize = 3;
 /// reach the data through the borrowing lookups below.
 // TODO(Part 3): delete this attribute once your lookups actually read the
 // fields. It is here only so the untouched starter crate compiles clean.
+
 #[allow(dead_code)]
 #[derive(Debug, Default)]
 pub struct Library {
@@ -78,7 +79,7 @@ impl Library {
 
     pub fn longest_loan_item(&self) -> Option<&Item> {
         // TODO(Part 4): the item that may be kept longest, via `LoanTerms`.
-        todo!("find the longest-loan item")
+        self.items.iter().max_by_key(|item| item.loan_days())
     }
 
     pub fn checkout(&mut self, item_id: u32, member_id: u32, day: u32) -> Result<(), LibraryError> {
