@@ -9,7 +9,7 @@ pub enum MediaKind {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum LoanStatus {
-    Available, //solution for available_items in library.rs 
+    Available, //solution for available_items in library.rs
     OnLoan { member_id: u32, day_borrowed: u32 },
     Lost,
 }
@@ -53,19 +53,19 @@ impl Item {
 impl LoanTerms for MediaKind {
     fn loan_days(&self) -> u32 {
         // TODO(Part 4): books 21, audiobooks 14, ebooks 7.
-        match self{
-        MediaKind::Book { .. } => 21,
-        MediaKind::Audiobook { .. } => 14,
-        MediaKind::Ebook { .. } => 7,
+        match self {
+            MediaKind::Book { .. } => 21,
+            MediaKind::Audiobook { .. } => 14,
+            MediaKind::Ebook { .. } => 7,
         }
     }
 
     fn daily_late_fee_cents(&self) -> u32 {
         // TODO(Part 4): 25 cents a day, except ebooks, which are never late.
-        match self{
-        MediaKind::Book { .. } => 25,
-        MediaKind::Audiobook { .. } => 25,
-        MediaKind::Ebook { .. } => 0,
+        match self {
+            MediaKind::Book { .. } => 25,
+            MediaKind::Audiobook { .. } => 25,
+            MediaKind::Ebook { .. } => 0,
         }
     }
 }
@@ -85,16 +85,16 @@ impl LoanTerms for Item {
 impl fmt::Display for MediaKind {
     fn fmt(&self, _formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         // TODO(Part 4): mention the data the variant carries.
-        match self{
-            MediaKind::Book{pages} => {
-                write!(_formatter, "Book ({pages}) pages)")
+        match self {
+            MediaKind::Book { pages } => {
+                write!(_formatter, "Book ({pages}) pages")
             }
 
-            MediaKind::Audiobook{minutes} => {
+            MediaKind::Audiobook { minutes } => {
                 write!(_formatter, "Audiobook ({minutes} minutes)")
             }
 
-            MediaKind::Ebook{size_kb} => {
+            MediaKind::Ebook { size_kb } => {
                 write!(_formatter, "Ebook ({size_kb} KB)")
             }
         }
@@ -104,19 +104,25 @@ impl fmt::Display for MediaKind {
 impl fmt::Display for LoanStatus {
     fn fmt(&self, _formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
         // TODO(Part 4): an on-loan item should name its borrower.
-        match self{
+        match self {
             LoanStatus::Available => {
                 write!(_formatter, "Available")
             }
-            LoanStatus::OnLoan{member_id, day_borrowed} => {
-                write!(_formatter, "On loan to member {member_id} since day {day_borrowed}")
+            LoanStatus::OnLoan {
+                member_id,
+                day_borrowed,
+            } => {
+                write!(
+                    _formatter,
+                    "On loan to member {member_id} since day {day_borrowed}"
+                )
             }
             LoanStatus::Lost => {
                 write!(_formatter, "Lost")
             }
         }
     }
-}   
+}
 
 impl fmt::Display for Item {
     fn fmt(&self, _formatter: &mut fmt::Formatter<'_>) -> fmt::Result {
@@ -124,12 +130,7 @@ impl fmt::Display for Item {
         write!(
             _formatter,
             "#{}: {} by {} | {} | {}",
-            self.id,
-            self.title,
-            self.author,
-            self.kind,
-            self.status
-
+            self.id, self.title, self.author, self.kind, self.status
         )
     }
 }

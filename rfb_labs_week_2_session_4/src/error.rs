@@ -46,22 +46,40 @@ impl fmt::Display for LibraryError {
         // TODO(Part 2): return a useful, human-readable message for every
         // variant. Include the ids and numbers the variant carries.
         // Only write as implement several types of errors
-        match self{
+        match self {
             LibraryError::EmptyTitle => write!(_formatter, "Item title cannot be empty."),
-            LibraryError::DuplicateItemId {id}=> write!(_formatter, "and item with id {id} already exists."),
-            LibraryError::DuplicateMemberId {id}=> write!(_formatter, "and member with id {id} already exists."),
-            LibraryError::ItemNotFound {id}=> write!(_formatter, "item with id {id} was no found."),
-            LibraryError::MemberNotFound {id}=> write!(_formatter, "member with id {id} was no found."),
-            LibraryError::ItemAlreadyOnLoan {id, member_id}=> write!(_formatter, "item with id {id} is already on loan to member with id {member_id}."),
-            LibraryError::ItemNotOnLoan {id}=> write!(_formatter, "item with id {id} is not on loan."),
-            LibraryError::ItemIsLost {id}=> write!(_formatter, "item with id {id} is lost."),
-            LibraryError::BorrowLimitReached {member_id, limit}=> write!(_formatter,
-    "member with id {member_id} has reached the borrow limit of {limit}."),
+            LibraryError::DuplicateItemId { id } => {
+                write!(_formatter, "an item with id {id} already exists.")
+            }
+            LibraryError::DuplicateMemberId { id } => {
+                write!(_formatter, "a member with id {id} already exists.")
+            }
+            LibraryError::ItemNotFound { id } => {
+                write!(_formatter, "item with id {id} was not found.")
+            }
+            LibraryError::MemberNotFound { id } => {
+                write!(_formatter, "member with id {id} was not found.")
+            }
+            LibraryError::ItemAlreadyOnLoan { id, member_id } => write!(
+                _formatter,
+                "item with id {id} is already on loan to member with id {member_id}."
+            ),
+            LibraryError::ItemNotOnLoan { id } => {
+                write!(_formatter, "item with id {id} is not on loan.")
+            }
+            LibraryError::ItemIsLost { id } => write!(_formatter, "item with id {id} is lost."),
+            LibraryError::BorrowLimitReached { member_id, limit } => write!(
+                _formatter,
+                "member with id {member_id} has reached the borrow limit of {limit}."
+            ),
             LibraryError::InvalidReturnDay {
-                day_borrowed, 
-                day_returned}
-            => write!(_formatter,"invalid return day: item was borrowed on day {day_borrowed} and returned on day {day_returned}.")
-       }
+                day_borrowed,
+                day_returned,
+            } => write!(
+                _formatter,
+                "invalid return day: item was borrowed on day {day_borrowed} and returned on day {day_returned}."
+            ),
+        }
     }
 }
 
