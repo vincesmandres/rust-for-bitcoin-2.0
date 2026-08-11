@@ -158,13 +158,6 @@ I also implemented the optional generic `filter_items` helper using
 `Fn(&Item) -> bool`. Both `items_by_author` and `available_items` reuse this
 helper, which removes duplicated iteration and filtering logic.
 
-
-So the section should end with:
-
-I also implemented the optional generic `filter_items` helper using
-`Fn(&Item) -> bool`. Both `items_by_author` and `available_items` reuse this
-helper, which removes duplicated iteration and filtering logic.
-
 ```mermaid
 flowchart LR
     M[Member] -->|borrowed_item_ids| L[Library]
@@ -179,7 +172,7 @@ flowchart LR
 
 
 ## Errors Documentation 
-### Ownership experiments A
+### Ownership Experiment A
 ```text
 PS C:\Users\LENOVO\Desktop\rust-for-bitcoin-2.0\rfb_labs_week_2_session_4> cargo check
     Checking rfb_labs_week_2_session_4 v0.1.0 (C:\Users\LENOVO\Desktop\rust-for-bitcoin-2.0\rfb_labs_week_2_session_4)
@@ -204,7 +197,7 @@ error: could not compile `rfb_labs_week_2_session_4` (bin "rfb_labs_week_2_sessi
 `Item` does not implement `Copy`, the original variable can no longer be used,
 so accessing `item.title` afterwards is rejected by the compiler.
 
-### Ownership experiments B
+### Ownership Experiment  B
 ```text
 PS C:\Users\LENOVO\Desktop\rust-for-bitcoin-2.0\rfb_labs_week_2_session_4> cargo check
     Checking rfb_labs_week_2_session_4 v0.1.0 (C:\Users\LENOVO\Desktop\rust-for-bitcoin-2.0\rfb_labs_week_2_session_4)
@@ -231,8 +224,6 @@ same library. Because `held_item` is used again after the checkout call, the
 immutable borrow overlaps the mutable borrow, and Rust rejects the operation.
 
 ## Example output
-
-Paste the output of `cargo run` here once Part 8 is complete.
 
 ```text
 PS C:\Users\LENOVO\Desktop\rust-for-bitcoin-2.0\rfb_labs_week_2_session_4> cargo run       
