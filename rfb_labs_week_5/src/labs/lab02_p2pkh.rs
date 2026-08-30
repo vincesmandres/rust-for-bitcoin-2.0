@@ -10,7 +10,7 @@ pub fn derive_p2pkh_address(public_key_hex: &str, network: Network) -> LabResult
     let public_key = public_key_hex
         .parse::<bitcoin::PublicKey>()
         .map_err(|error| crate::LabError::InvalidKey(error.to_string()))?;
-    
+
     Ok(bitcoin::Address::p2pkh(public_key, network).to_string())
 }
 
@@ -45,10 +45,7 @@ pub fn p2pkh_spend_template(
         .map_err(|error| crate::LabError::InvalidKey(error.to_string()))?;
 
     Ok(P2pkhSpendTemplate {
-        script_sig_items: vec![
-            signature_hex.to_owned(),
-            public_key.to_string(),
-        ],
+        script_sig_items: vec![signature_hex.to_owned(), public_key.to_string()],
         witness_items: Vec::new(),
     })
 }

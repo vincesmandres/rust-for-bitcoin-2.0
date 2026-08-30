@@ -8,58 +8,52 @@ use crate::LabResult;
 /// Identify an address family from its human-readable prefix.
 pub fn identify_prefix(address: &str) -> AddressFormat {
     let address = address.to_ascii_lowercase();
-    if address.starts_with("bc1p")
-        || address.starts_with("tb1p")
-        || address.starts_with("bcrt1p")
-    {
+    if address.starts_with("bc1p") || address.starts_with("tb1p") || address.starts_with("bcrt1p") {
         AddressFormat::P2tr
     } else if address.starts_with("bc1q")
         || address.starts_with("tb1q")
         || address.starts_with("bcrt1q")
     {
         AddressFormat::P2wpkh
-    } else if address.starts_with('1')
-        || address.starts_with('m')
-        || address.starts_with('n')
-    {
+    } else if address.starts_with('1') || address.starts_with('m') || address.starts_with('n') {
         AddressFormat::P2pkh
     } else if address.starts_with('3') || address.starts_with('2') {
         AddressFormat::P2sh
     } else {
         AddressFormat::Unknown
-    }   
+    }
 }
 
 /// Return the expected human-readable prefix for a format on a selected network.
 pub fn expected_prefix(format: AddressFormat, network: Network) -> Option<&'static str> {
     match (format, network) {
-    (AddressFormat::P2pkh, Network::Bitcoin) => Some("1"),
-    (AddressFormat::P2sh, Network::Bitcoin) => Some("3"),
-    (AddressFormat::P2wpkh, Network::Bitcoin) => Some("bc1q"),
-    (AddressFormat::P2tr, Network::Bitcoin) => Some("bc1p"),
+        (AddressFormat::P2pkh, Network::Bitcoin) => Some("1"),
+        (AddressFormat::P2sh, Network::Bitcoin) => Some("3"),
+        (AddressFormat::P2wpkh, Network::Bitcoin) => Some("bc1q"),
+        (AddressFormat::P2tr, Network::Bitcoin) => Some("bc1p"),
 
-    (AddressFormat::P2pkh, Network::Regtest) => Some("m/n"),
-    (AddressFormat::P2sh, Network::Regtest) => Some("2"),
-    (AddressFormat::P2wpkh, Network::Regtest) => Some("bcrt1q"),
-    (AddressFormat::P2tr, Network::Regtest) => Some("bcrt1p"),
+        (AddressFormat::P2pkh, Network::Regtest) => Some("m/n"),
+        (AddressFormat::P2sh, Network::Regtest) => Some("2"),
+        (AddressFormat::P2wpkh, Network::Regtest) => Some("bcrt1q"),
+        (AddressFormat::P2tr, Network::Regtest) => Some("bcrt1p"),
 
-    (AddressFormat::P2pkh, Network::Testnet)
-    | (AddressFormat::P2pkh, Network::Testnet4)
-    | (AddressFormat::P2pkh, Network::Signet) => Some("m/n"),
+        (AddressFormat::P2pkh, Network::Testnet)
+        | (AddressFormat::P2pkh, Network::Testnet4)
+        | (AddressFormat::P2pkh, Network::Signet) => Some("m/n"),
 
-    (AddressFormat::P2sh, Network::Testnet)
-    | (AddressFormat::P2sh, Network::Testnet4)
-    | (AddressFormat::P2sh, Network::Signet) => Some("2"),
+        (AddressFormat::P2sh, Network::Testnet)
+        | (AddressFormat::P2sh, Network::Testnet4)
+        | (AddressFormat::P2sh, Network::Signet) => Some("2"),
 
-    (AddressFormat::P2wpkh, Network::Testnet)
-    | (AddressFormat::P2wpkh, Network::Testnet4)
-    | (AddressFormat::P2wpkh, Network::Signet) => Some("tb1q"),
+        (AddressFormat::P2wpkh, Network::Testnet)
+        | (AddressFormat::P2wpkh, Network::Testnet4)
+        | (AddressFormat::P2wpkh, Network::Signet) => Some("tb1q"),
 
-    (AddressFormat::P2tr, Network::Testnet)
-    | (AddressFormat::P2tr, Network::Testnet4)
-    | (AddressFormat::P2tr, Network::Signet) => Some("tb1p"),
+        (AddressFormat::P2tr, Network::Testnet)
+        | (AddressFormat::P2tr, Network::Testnet4)
+        | (AddressFormat::P2tr, Network::Signet) => Some("tb1p"),
 
-    (AddressFormat::Unknown, _) => None,
+        (AddressFormat::Unknown, _) => None,
     }
 }
 
